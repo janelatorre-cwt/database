@@ -1,0 +1,25 @@
+<LocalDescRef version="1.1">
+  <name>SYS_VERSION</name>
+  <type>6</type>
+  <appObjectDesc class="SCRIPT">
+    <type>0</type>
+    <scriptText>;*****************************************************************************************
+;* Script		: SYS_VERSION
+;* 
+;* Function		: Will set the Database module version and date.
+;*
+;* Created by	: MO/13Oct10
+;*
+;* Modified 	:  ¥ Σ @
+;* call 'quad_chk_send' #1='a' #2='*a' #3='' #4='' #5='norm'
+;*****************************************************************************************
+
+;* SET THE VERSION AND DATE DATA ITEMS
+set sys_version 'v18.10.1'
+set sys_version_date '24 Oct 2018'
+</scriptText>
+    <javaScriptMode>0</javaScriptMode>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2015-06-29 02:09:29.0 GMT</created>
+    <lastSaved class="com.poet.rt.db.tracked.TrackedDate">2018-08-31 04:15:29.0 GMT</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

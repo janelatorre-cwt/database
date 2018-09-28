@@ -1,0 +1,590 @@
+<LocalDescRef version="1.1">
+  <name>Application Settings</name>
+  <type>15</type>
+  <appObjectDesc class="APPPROPERTIES">
+    <appProperties>
+      <entry>
+        <string>calculatorClearEntryKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>127</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>calculatorClearKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>67</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>calculatorClearTapeKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>0</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>calculatorColumns</string>
+        <int>15</int>
+      </entry>
+      <entry>
+        <string>calculatorEnhanced</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>calculatorMemoryClearKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>calculatorMemoryPlusKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>calculatorMemoryRetrieveKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>calculatorPercentKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>53</keyCode>
+          <modifiers>65</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>calculatorPositiveNegativeKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>calculatorPrecision</string>
+        <int>2</int>
+      </entry>
+      <entry>
+        <string>calculatorShowTape</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>calculatorTapeRows</string>
+        <int>5</int>
+      </entry>
+      <entry>
+        <string>calculatorTapeScrollDownKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>34</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>calculatorTapeScrollUpKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>33</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>CTI</string>
+        <com.sabre.qik.addon.cti.PhoneStatusWindowDesc>
+          <agentStatus>
+            <entry>
+              <string>after call work string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>available string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>column</string>
+              <int>4</int>
+            </entry>
+            <entry>
+              <string>not logged in string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>2</int>
+            </entry>
+            <entry>
+              <string>unavailable string</string>
+              <string></string>
+            </entry>
+          </agentStatus>
+          <callWaiting>
+            <entry>
+              <string>call waiting string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>column</string>
+              <int>1</int>
+            </entry>
+            <entry>
+              <string>many calls waiting string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>2</int>
+            </entry>
+            <entry>
+              <string>threshold</string>
+              <int>3</int>
+            </entry>
+          </callWaiting>
+          <emergency>
+            <entry>
+              <string>alert string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>column</string>
+              <int>8</int>
+            </entry>
+            <entry>
+              <string>emergency string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>1</int>
+            </entry>
+          </emergency>
+          <lineAppearance1>
+            <entry>
+              <string>column</string>
+              <int>8</int>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>2</int>
+            </entry>
+          </lineAppearance1>
+          <lineAppearance2>
+            <entry>
+              <string>column</string>
+              <int>9</int>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>2</int>
+            </entry>
+          </lineAppearance2>
+          <lineAppearance3>
+            <entry>
+              <string>column</string>
+              <int>10</int>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>2</int>
+            </entry>
+          </lineAppearance3>
+          <lineAppearanceStrings>
+            <entry>
+              <string>line active string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>line busy string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>line hold string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>line inactive string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>line ring string</string>
+              <string></string>
+            </entry>
+          </lineAppearanceStrings>
+          <phoneStatus>
+            <entry>
+              <string>column</string>
+              <int>1</int>
+            </entry>
+            <entry>
+              <string>error background</string>
+              <awt-color>
+                <red>128</red>
+                <green>128</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </awt-color>
+            </entry>
+            <entry>
+              <string>error foreground</string>
+              <awt-color>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </awt-color>
+            </entry>
+            <entry>
+              <string>error string</string>
+              <string>PH-ERR</string>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>1</int>
+            </entry>
+            <entry>
+              <string>status background</string>
+              <awt-color>
+                <red>0</red>
+                <green>255</green>
+                <blue>255</blue>
+                <alpha>255</alpha>
+              </awt-color>
+            </entry>
+            <entry>
+              <string>status foreground</string>
+              <awt-color reference="../../entry[3]/awt-color"/>
+            </entry>
+            <entry>
+              <string>status string</string>
+              <string>PHONE</string>
+            </entry>
+          </phoneStatus>
+          <scriptStatus>
+            <entry>
+              <string>column</string>
+              <int>6</int>
+            </entry>
+            <entry>
+              <string>off string</string>
+              <string>O</string>
+            </entry>
+            <entry>
+              <string>on string</string>
+              <string>S</string>
+            </entry>
+            <entry>
+              <string>row</string>
+              <int>2</int>
+            </entry>
+          </scriptStatus>
+          <statistics>
+            <entry>
+              <string>average time column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>average time label column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>average time label row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>average time label string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>average time row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call elapsed column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call elapsed label column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call elapsed label row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call elapsed label string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>call elapsed row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call end column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call end label column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call end label row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call end label string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>call end row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call start column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call start label column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call start label row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>call start label string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>call start row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>total calls column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>total calls label column</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>total calls label row</string>
+              <int>0</int>
+            </entry>
+            <entry>
+              <string>total calls label string</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>total calls row</string>
+              <int>0</int>
+            </entry>
+          </statistics>
+        </com.sabre.qik.addon.cti.PhoneStatusWindowDesc>
+      </entry>
+      <entry>
+        <string>debuggerAcceleratorKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>68</keyCode>
+          <modifiers>130</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>defaultBackgroundColor</string>
+        <null/>
+      </entry>
+      <entry>
+        <string>defaultFont</string>
+        <string></string>
+      </entry>
+      <entry>
+        <string>defaultFontSize</string>
+        <string></string>
+      </entry>
+      <entry>
+        <string>defaultForegroundColor</string>
+        <null/>
+      </entry>
+      <entry>
+        <string>developmentGraphicLocation</string>
+        <string></string>
+      </entry>
+      <entry>
+        <string>developmentXMLSchemaLocation</string>
+        <string></string>
+      </entry>
+      <entry>
+        <string>displayWindowThinBorders</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>keypadChangeToPreviousKeypad</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>keypadDisplayKeys</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>keypadDisplayTitle</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>keypadEnhancedLink</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>mouseEnabled</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>pageShowActiveColorsOnlyWhenFocused</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>popupCharacterWrap</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>popupComboBoxExpandKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>popupComboBoxScrollEnabled</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>popupComboBoxSearchType</string>
+        <string>firstChar</string>
+      </entry>
+      <entry>
+        <string>popupCommitKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>10</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>popupLineWrap</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>popupListUseJavaBackground</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>popupNextFieldKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>9</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>popupNextLineKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>40</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>popupNextRowKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>popupPauseKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>popupPreviousFieldKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>9</keyCode>
+          <modifiers>65</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>popupPreviousLineKey</string>
+        <javax.swing.KeyStroke>
+          <keyChar nonunicode="65535"/>
+          <keyCode>38</keyCode>
+          <modifiers>0</modifiers>
+          <onKeyRelease>false</onKeyRelease>
+        </javax.swing.KeyStroke>
+      </entry>
+      <entry>
+        <string>popupPreviousRowKey</string>
+        <javax.swing.KeyStroke reference="../../entry[3]/javax.swing.KeyStroke"/>
+      </entry>
+      <entry>
+        <string>popupScrollCharOffEnd</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>popupSelectField</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>popupShowInputFieldBorder</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>popupStartCharField</string>
+        <boolean>false</boolean>
+      </entry>
+      <entry>
+        <string>regionKeyMap</string>
+        <RegionKeyMap>
+          <defaultRegion>en_GB</defaultRegion>
+          <data>
+            <entry>
+              <locale reference="../../../defaultRegion"/>
+              <DynamicArrayList/>
+            </entry>
+          </data>
+        </RegionKeyMap>
+      </entry>
+      <entry>
+        <string>resolution</string>
+        <java.awt.Dimension>
+          <width>1024</width>
+          <height>768</height>
+        </java.awt.Dimension>
+      </entry>
+      <entry>
+        <string>schemaLoaderFeatures</string>
+        <string></string>
+      </entry>
+      <entry>
+        <string>systemDateFormat</string>
+        <string>MM/dd/yy</string>
+      </entry>
+      <entry>
+        <string>systemTimeFormat</string>
+        <string>HH:mm:ss</string>
+      </entry>
+      <entry>
+        <string>useSystemTitleBarSize</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>useSystemTitleFont</string>
+        <boolean>false</boolean>
+      </entry>
+    </appProperties>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2010-09-06 07:29:57.0 GMT</created>
+    <lastSaved class="com.poet.rt.db.tracked.TrackedDate">2010-09-06 07:29:57.0 GMT</lastSaved>
+    <uuid>52EFD875-D61D-47C5-84A2-553AEE70CA53</uuid>
+  </appObjectDesc>
+</LocalDescRef>

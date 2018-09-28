@@ -1,0 +1,238 @@
+<LocalDescRef version="1.1">
+  <name>QUERY</name>
+  <type>6</type>
+  <appObjectDesc class="SCRIPT">
+    <type>1</type>
+    <scriptText>
+//*****************************************************************************************
+//* Script		: QUERY
+//* 
+//* Function	: Will query a database stored procedure and retrieve results
+//*
+//* Parameters  : #1 - Database name
+//*               #2 - Stored Procedure name
+//*               #3 - Qik table to return results (ensure module name is appended i.e. MAIN:TABLE_NAME)
+//*               #4 - #?  Stored Procedure parameters
+//*
+//* Created by	: MO/13Oct10
+//*
+//* Modified 	: gregk 08oct13 
+//*****************************************************************************************
+
+// IMPORT RELEVANT JAVA CLASS
+importPackage(java.sql);
+
+// INITIALISE
+databaseStatus.value       = "";
+databaseFirstRow.value     = "";
+databaseRowsReturned.value = "";
+var rowsReturned = 0;
+var startTime = 0;
+var elapsedTime = 0;
+var dbLogParameter = "";
+var success = "";
+var reconnectAttempts = 0;
+var shouldRetry = "";
+var connectionFailed = "";
+var maxReconnect = databaseProperties.getProperty("opus.database." + args[0] + ".maxReconnect");
+if(maxReconnect == "" || maxReconnect == null) {
+	maxReconnect = 3;
+}
+var queryTimeout = databaseProperties.getProperty("opus.database." + args[0] + ".queryTimeout");
+if(queryTimeout == "" || queryTimeout == null) {
+	queryTimeout = 20;
+}
+application.scripts["MAIN:WAITING"].call("Retrieving from database...");
+do{
+	// GET DB LOG HEADER
+	if (dbLogEnabled == "Yes"){
+		var dbLogEntry = getLogEntry("opus.Logger.DBDataLog.header");	
+	}
+	// GET EXCEPTION LOG HEADER
+	if (ExeptionLogEnabled == "Yes"){
+		var dbExceptionLogEntry = getLogEntry("opus.Logger.ExceptionLog.header");
+	}
+	// START PERFORMANCE
+	if (dbLogEnabled == "Yes" || ExeptionLogEnabled == "Yes"){
+		startTime  = startPerformance();
+	}	
+
+	// GET THE RELEVANT DATABASE CONNECTION INSTANCE FOR THIS DATABASE
+	var databaseInstance = databaseProperties.getProperty("opus.database." + args[0] + ".qikInstance");
+	if (databaseInstance == null){
+   		databaseStatus.value = "1";
+   		// ADD ENTRY TO EXCEPTION LOG 
+   		if (ExeptionLogEnabled == "Yes"){
+			elapsedTime = stopPerformance();
+			for (var i = 3; i &lt; args.length; i++){
+				dbLogParameter = "\t" +  getLogProperty("opus.Logger.ExceptionLog.body", "Yes");
+				dbLogParameter = dbLogParameter.replace("[ParameterValue]", args[i]);
+				dbExceptionLogEntry += dbLogParameter;
+			}	
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[Source]", args[1]);
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[Description]", "Error executing database query : " + args[0] + " database not connected.");
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[ElapsedTime]", elapsedTime);
+			dbExceptionLogEntry += getLogProperty("opus.Logger.ExceptionLog.footer", "Yes");
+			success = writeToFile(ExceptionLogFile, dbExceptionLogEntry);   		
+	   	} 
+   		else {
+   			debug("Error executing database query : " + args[0] + " database not connected.");  // gregk 09aug13
+   		}	   
+	}
+	else {
+   		var databaseConnection = databaseConnections[databaseInstance];
+	}
+
+    // US5047 [TECH] PCI - SQL Injection - 08Nov2017 - Additional validation to prevent SQL injection by allowing only Power Turbo stored procedures
+    //var matcher = application.dataItems;
+    // application.scripts["UTILITY:JS_GETMATCH"].call(args[1], "\^(spTurbo_|spHotelBooking_|spGeneric_|spExternalService_)[\\w]*$","matcher");
+    // var spMatch = matcher['matcher'].value;
+    //if (spMatch == "") {
+    //		application.scripts["MAIN:error_message"].call("The stored procedure " + args[1] + " is not valid for Power Turbo.","error");
+    //}
+	
+
+	// CREATE A STRING WITH THE STORED PROCEDURE STATEMENT
+	// USE callableStatement INSTEAD OF USING prepareStatement TO EXECUTE STORED PROCEDURE 
+	//  US5047 [TECH] PCI - SQL Injection - 08Nov2017 - USE {call [stored procedure](?,?...)} INSTEAD OF exec [stored procedure] ?, ?....
+    var storedProcedure = "{call " + args[1] + "("
+	for (var i = 3; i &lt; args.length; i++){
+   		if (i != 3){
+      		storedProcedure = storedProcedure + ",";
+   		}
+   		storedProcedure = storedProcedure + "?";
+	}
+	storedProcedure = storedProcedure + ")}"; //end call [stored procedure]
+
+	try {
+		// CREATE THE DATABASE EXECUTING STATEMENT
+		// US5047 [TECH] PCI - SQL Injection - 08Nov2017 - USE callableStatement INSTEAD OF USING prepareStatement TO EXECUTE STORED PROCEDURE 
+   		//var databaseStatement = databaseConnection.prepareStatement(storedProcedure);
+   		var databaseStatement = databaseConnection.prepareCall(storedProcedure);
+   		databaseStatement.setQueryTimeout(queryTimeout); // each query will timeout after not receiving a result within x seconds.
+   		// LOOP TO SET PARAMETERS
+   		for (var i = 3; i &lt; args.length; i++){
+			// ADD PARAMETER VALUE TO DBDATA LOG
+	   		if (dbLogEnabled == "Yes"){
+				dbLogParameter = "\t" +  getLogProperty("opus.Logger.DBDataLog.body", "Yes");
+				dbLogParameter = dbLogParameter.replace("[ParameterValue]", args[i]);
+				dbLogEntry += dbLogParameter;
+ 	  		}
+   			if (ExeptionLogEnabled == "Yes"){
+				dbLogParameter = "\t" +  getLogProperty("opus.Logger.ExceptionLog.body", "Yes");
+				dbLogParameter = dbLogParameter.replace("[ParameterValue]", args[i]);
+				dbExceptionLogEntry += dbLogParameter;
+   			}
+	    	databaseStatement.setString(i-2, args[i]);
+    	}
+   
+   
+   		// EXECUTE THE STATEMENT AND GET THE RESULTS SET AND META DATA
+   		//var resultSet = databaseStatement.executeQuery(storedProcedure);
+   		var resultSet = databaseStatement.executeQuery();
+   		var resultSetMetaData = resultSet.getMetaData();
+   
+   		// GET THE TOTAL NUMBER OF COLUMNS RETURNED FROM THE QUERY
+   		var nbrCols = resultSetMetaData.getColumnCount();
+   
+   		// OUPUT THE COLUMN NAMES TO THE LOG FILE
+   		var columnNames = ""
+   		for (i = 1; i &lt;= nbrCols; i++){
+      		if (i != 1){
+         		columnNames = columnNames + "|";
+      		}
+      		columnNames = columnNames + resultSetMetaData.getColumnName(i);
+   		}
+   
+   		// GET THE RESULTS AND ADD THEM TO THE REQUIRED QIK TABLE AS WELL AS THE LOG FILE
+   		var databaseColumnText = "";
+   		if (args[2] != ""){
+      		application.scripts["CLEAR_TABLE"].call(args[2]);
+   		}
+   		while (resultSet.next()){
+      		var databaseInsert = ""
+      		for (i = 1; i &lt;= nbrCols; i++){
+         		if (i != 1){
+            		databaseInsert = databaseInsert + "|";
+         		}
+         		databaseColumnText = resultSet.getString(i);
+         		if (databaseColumnText == null){
+            		databaseColumnText = "";
+         		}
+         		databaseInsert = databaseInsert + databaseColumnText;
+
+      		}
+      		if (databaseFirstRow.value == ""){
+         		databaseFirstRow.value = databaseInsert;
+      		}
+      		if (args[2] != ""){
+         		//qikTable.addRow(databaseInsert, "|"); cannot handle blank char when inserting to table (data in wrong columns)
+         		application.scripts["ADD_ROW"].call(args[2],databaseInsert,"|"); // gregk 28jun12
+      		}
+      		rowsReturned++;
+   		}
+   		databaseRowsReturned = rowsReturned;
+   		databaseStatus.value = "0";
+   		// ADD ENTRY TO DBDATA LOG
+   		if (dbLogEnabled == "Yes"){
+   	   		elapsedTime = stopPerformance();
+   	   		dbLogEntry = dbLogEntry.replace("[ProcedureName]", args[1]);
+   	   		var rowsMsg = (rowsReturned == 1) ? "Row Returned" : "Rows Returned"; 
+   	   		dbLogEntry = dbLogEntry.replace("[Message]", rowsReturned + " " + rowsMsg);
+   	   		dbLogEntry = dbLogEntry.replace("[ElapsedTime]", elapsedTime);
+   	   		dbLogEntry = dbLogEntry.replace("[ReconnectAttempts]", reconnectAttempts + " of " + maxReconnect);
+   	   		dbLogEntry += getLogProperty("opus.Logger.DBDataLog.footer", "Yes");
+	   		success = writeToFile(dbLogFile, dbLogEntry)
+   		}	   
+   		shouldRetry = "false";
+	}
+	catch (exception){
+		// POPULATE VALUE AND EXCEPTION MESSAGE
+		databaseStatus.value = "2";
+		databaseError.value = exception;
+	
+		// ADD ENTRY TO EXCEPTION LOG
+		if (ExeptionLogEnabled == "Yes"){
+			elapsedTime = stopPerformance();
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[Source]", args[1]);
+			if(reconnectAttempts &gt; 0) {
+				dbExceptionLogEntry = dbExceptionLogEntry.replace("[Description]", exception + "... Reconnect attempts: " + reconnectAttempts + " of " + maxReconnect + ".");				
+			} else {
+				dbExceptionLogEntry = dbExceptionLogEntry.replace("[Description]", exception);	
+			}		
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[ElapsedTime]", elapsedTime);
+			dbExceptionLogEntry += getLogProperty("opus.Logger.ExceptionLog.footer", "Yes");
+			success = writeToFile(ExceptionLogFile, dbExceptionLogEntry);
+		}	
+		
+		if(exception == "JavaException: com.microsoft.sqlserver.jdbc.SQLServerException: The query has timed out.") {
+			shouldRetry = "false";
+			application.scripts["MAIN:error_message"].call("DB query timeout","error");
+		} else if(exception == "JavaException: com.microsoft.sqlserver.jdbc.SQLServerException: Read timed out" 
+			|| exception == "JavaException: com.microsoft.sqlserver.jdbc.SQLServerException: The connection is closed."
+			|| exception == "JavaException: com.microsoft.sqlserver.jdbc.SQLServerException: Connection reset"){
+
+			if(reconnectAttempts &lt; maxReconnect) {
+				application.scripts["DATABASE:CONNECT"].call(args[0]);
+				reconnectAttempts++;
+				shouldRetry = "true";
+			} else {
+				connectionFailed="true";
+				shouldRetry = "false";
+			}
+		} else {
+			shouldRetry = "false";
+		}
+		
+	}
+} while (shouldRetry == "true");
+
+if(connectionFailed=="true") {
+	application.scripts["MAIN:error_message"].call("Cannot connect to DB.","error");
+}
+application.scripts["MAIN:remove_waiting"].call();
+</scriptText>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2017-09-11 16:24:48.0 SGT</created>
+    <lastSaved>2018-02-02 14:52:46.317 SGT</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

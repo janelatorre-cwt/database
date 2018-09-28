@@ -1,0 +1,92 @@
+<LocalDescRef version="1.1">
+  <name>CONNECT</name>
+  <type>6</type>
+  <appObjectDesc class="SCRIPT">
+    <type>1</type>
+    <scriptText>//*****************************************************************************************
+//* Script		: CONNECT
+//* 
+//* Function	: Will connect to a database
+//*
+//* Parameters  : #1 - Database name
+//*
+//* Created by	: MO/13Oct10
+//*
+//* Modified 	: gregk 17apr14  ¥ Σ @
+//*****************************************************************************************
+// IMPORT RELEVANT JAVA CLASSES
+importPackage(java.sql);
+importClass(java.lang.Class);
+
+// INITIALISE
+databaseFirstRow.value     = "";
+databaseRowsReturned.value = "";
+databaseStatus.value = "2"; // MD 06DEC12 value for not caught exception
+
+// GET RELEVANT DATABASE CONNECTION VALUES
+var databaseDriver   = databaseProperties.getProperty("opus.database." + args[0] + ".databaseDriver");
+var databaseURL      = databaseProperties.getProperty("opus.database." + args[0] + ".URL");
+if (args[0] == "CDDB"){
+	databaseURLOut.value = databaseProperties.getProperty("opus.database." + args[0] + ".URL");		// MR/27MAY11
+}
+var databaseUsername = databaseProperties.getProperty("opus.database." + args[0] + ".username");
+var databasePassword = databaseProperties.getProperty("opus.database." + args[0] + ".password");
+if (databasePassword == null){
+	databasePassword = args[1];
+}
+// DECRYPT PASSWORD
+databasePassword = decryptpwd(databasePassword); //MD 03DEC12 - US2683
+
+// CHECK TO SEE IF THIS DATABASE ALREADY HAS A CONNECTION INSTANCE.
+// IF IT HAS THEN USE ITS INSTANCE NUMBER OTHERWISE ASSIGN THE NEXT SEQUENCE NUMBER.
+var databaseInstance = databaseProperties.getProperty("opus.database." + args[0] + ".qikInstance");
+if (databaseInstance == null){
+   nextDBInstance_old++;
+   databaseInstance = nextDBInstance.value;
+   databaseProperties.setProperty("opus.database." + args[0] + ".qikInstance", nextDBInstance.value);
+   nextDBInstance.value++;
+}
+
+// START PERFORMANCE
+if (ExeptionLogEnabled == "Yes"){
+	var startTime  = startPerformance();
+}
+
+// ATTEMPT TO CONNECT TO THE RELEVANT DATABASE
+if (databasePassword == "Cannot find function"){
+	// RAISE THE ENCRYPTION ERROR
+	databaseStatus.value = "69";
+}
+else {	
+	try{
+   		databaseStatus.value = "0";
+   		Class.forName(databaseDriver);
+   		databaseConnections[databaseInstance] = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+	}
+	catch (exception){
+	   databaseStatus.value = "1";
+   		// LOGGER
+   		if (ExeptionLogEnabled == "Yes"){
+   			// STOP PERFORMANCE
+   			var elapsedTime = stopPerformance();
+			// GET EXCEPTION HEADER
+			var dbExceptionLogEntry = getLogEntry("opus.Logger.ExceptionLog.header");
+			// GET PARAMETER 
+			var dbLogParameter = "\t" +  getLogProperty("opus.Logger.ExceptionLog.body", "Yes");
+			// REPLACE ALL PLACE HOLDERS
+			dbLogParameter = dbLogParameter.replace("[ParameterValue]", args[0]);
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[Source]", "URL: " + databaseURL + " User name: " + databaseUsername);
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[Description]", "Database connection failed : " + exception);
+			dbExceptionLogEntry = dbExceptionLogEntry.replace("[ElapsedTime]", elapsedTime);
+			dbExceptionLogEntry += dbLogParameter;
+			dbExceptionLogEntry += getLogProperty("opus.Logger.ExceptionLog.footer", "Yes");
+			// ADD TO EXCEPTION LOG
+			var success = writeToFile(ExceptionLogFile, dbExceptionLogEntry);
+		}
+	}
+}
+</scriptText>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2012-09-06 16:51:00.0 CEST</created>
+    <lastSaved>2014-04-17 17:38:25.431 CEST</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

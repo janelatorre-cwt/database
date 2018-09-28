@@ -1,0 +1,121 @@
+<LocalDescRef version="1.1">
+  <name>INIT</name>
+  <type>6</type>
+  <appObjectDesc class="SCRIPT">
+    <type>1</type>
+    <scriptText>//****************************************************************************************
+//* Script		: INIT
+//* 
+//* Function	: Main database module initialisation script. This script must be run
+//*               from the main application before any other script is called
+//*
+//* Parameters  : #1 - Database name
+//*
+//* Created by	: MO/13Oct10
+//*
+//* Modified 	: gregk 09oct13
+//*****************************************************************************************
+// IMPORT RELEVANT JAVA CLASSES
+importPackage(java.sql);
+importClass(java.util.Properties);
+importClass(java.io.FileInputStream);
+
+// CREATE GLOBAL QIK OBJECTS IN JAVA SCRIPT AND EXPORT IF REQUIRED
+var databaseStatus       = application.dataItems["DATABASE:DB_STATUS"];
+var databaseFirstRow     = application.dataItems["DATABASE:FIRST_ROW"];
+var databaseRowsReturned = application.dataItems["DATABASE:NBR_ROWS"];
+var databaseURLOut       = application.dataItems["DATABASE:DB_URL"];			// MR/27MAY11
+var nextDBInstance       = application.dataItems["DATABASE:NEXT_DB_INSTANCE"];	// MR/30MAY11
+var databaseError        = application.dataItems["DATABASE:DB_ERROR"];			// MR/10JAN13
+var databaseConnections = new Array();
+var errorMsg = "";
+
+// EXPORT ALL PROPERTIES
+exportProperty("databaseStatus",       databaseStatus);
+exportProperty("databaseFirstRow",     databaseFirstRow);
+exportProperty("databaseRowsReturned", databaseRowsReturned);
+exportProperty("databaseConnections",  databaseConnections);
+exportProperty("databaseURLOut",       databaseURLOut);			// MR/27MAY11
+exportProperty("nextDBInstance",       nextDBInstance);			// MR/30MAY11
+exportProperty("databaseError",        databaseError);			// MR/10JAN13
+
+// INITIALISE
+databaseStatus.value       = "";
+databaseFirstRow.value     = "";
+databaseRowsReturned.value = "";
+databaseURLOut.value       = "";	// MR/27MAY11
+nextDBInstance.value       = "0";	// MR/30MAY11
+databaseError.value        = "";	// MR/10JAN13
+
+// CREATE GLOBAL JAVA OBJECTS AND EXPORT IF REQUIRED
+var nextDBInstance_old = 0;
+exportProperty("nextDBInstance_old", nextDBInstance_old);
+
+// LOAD THE DATABASE PROPERTIES FILE
+// THIS FILE CONTAINS ALL RELEVANT CREDENTIALS FOR CONECTING TO THE SQL DATABASES
+try {
+   databaseStatus.value = "0";
+   var databaseProperties = new Properties();
+   databaseProperties.load(new FileInputStream("environment.properties"));		// MR/22AUG11
+   exportProperty("databaseProperties", databaseProperties);
+}
+catch (e){
+   databaseStatus.value = "99";
+}
+
+if (databaseStatus.value == "99"){
+	try {
+		databaseStatus.value = "0";
+		var databaseProperties = new Properties();
+		databaseProperties.load(new FileInputStream("database.properties"));
+		exportProperty("databaseProperties", databaseProperties);
+	}
+	catch (e){
+		databaseStatus.value = "99";
+	}
+}
+// GET DB DATA LOG PROPERTIES
+try { 
+	var dbLogEnabled = getLogProperty("opus.Logger.DbDataLog.EnabledFlag");
+	dbLogEnabled = dbLogEnabled.trim();
+	if (dbLogEnabled == "Yes") {
+		var dbLogFile = getLogProperty("opus.Logger.DbDataLog.FileName");
+		dbLogFile = getLogFileName(dbLogFile.trim());
+	}
+	else {
+		var dbLogFile = null;	
+	}
+}
+catch (exception){
+	errorMsg = exception;
+}
+finally {
+	// EXPORT ENABLED FLAG AND FILE NAME FOR DB DATA LOG
+	exportProperty("dbLogEnabled", dbLogEnabled);
+	exportProperty("dbLogFile", dbLogFile);
+}	
+// GET EXCEPTION LOG PROPERTIES 
+try {
+	var ExeptionLogEnabled = getLogProperty("opus.Logger.ExceptionLog.EnabledFlag");
+	ExeptionLogEnabled = ExeptionLogEnabled.trim();
+	if (ExeptionLogEnabled == "Yes"){
+		var ExceptionLogFile = getLogProperty("opus.Logger.ExceptionLog.FileName");
+		ExceptionLogFile = getLogFileName(ExceptionLogFile.trim());
+	}
+	else {
+		ExceptionLogFile = null;
+	}
+}
+catch (exception){
+	errorMsg = exception;
+}	
+finally {
+	// EXPORT ENABLED FLAG AND FILE NAME FOR EXCEPTION LOG
+	exportProperty("ExeptionLogEnabled", ExeptionLogEnabled);
+	exportProperty("ExceptionLogFile", ExceptionLogFile);
+}
+</scriptText>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2012-09-06 16:51:00.0 CEST</created>
+    <lastSaved>2013-10-11 14:47:40.73 CEST</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

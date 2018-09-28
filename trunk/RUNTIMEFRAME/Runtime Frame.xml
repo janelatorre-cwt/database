@@ -1,0 +1,14 @@
+<LocalDescRef version="1.1">
+  <name>Runtime Frame</name>
+  <type>8</type>
+  <appObjectDesc class="RUNTIMEFRAME">
+    <top>0</top>
+    <left>0</left>
+    <width>1024</width>
+    <height>768</height>
+    <ghosted>false</ghosted>
+    <styles/>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2010-09-06 08:29:57.0 BST</created>
+    <lastSaved class="com.poet.rt.db.tracked.TrackedDate">2010-09-06 08:29:57.0 BST</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

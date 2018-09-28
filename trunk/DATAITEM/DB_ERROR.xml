@@ -1,0 +1,9 @@
+<LocalDescRef version="1.1">
+  <name>DB_ERROR</name>
+  <type>3</type>
+  <appObjectDesc class="DATAITEM">
+    <maxLength>-1</maxLength>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2013-01-10 20:06:39.434 CET</created>
+    <lastSaved class="com.poet.rt.db.tracked.TrackedDate">2013-01-10 20:06:40.479 CET</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

@@ -1,0 +1,9 @@
+<LocalDescRef version="1.1">
+  <name>Script Keys</name>
+  <type>1</type>
+  <appObjectDesc class="SCRIPTKEYS">
+    <scriptKeys/>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2010-09-06 08:29:57.0 BST</created>
+    <lastSaved class="com.poet.rt.db.tracked.TrackedDate">2010-09-06 08:29:57.0 BST</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

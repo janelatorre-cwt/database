@@ -1,0 +1,21 @@
+<LocalDescRef version="1.1">
+  <name>ADD_ROW</name>
+  <type>6</type>
+  <appObjectDesc class="SCRIPT">
+    <type>0</type>
+    <scriptText>;*****************************************************************************************
+;* Script		: ADD_ROW
+;* 
+;* Function		: to add row to table as java script function addRow cannot handle blank char  
+;*
+;* Created by	: gregk 28jun12 
+;* Params		: #1 - Table Name (I), #2 - Text Record (I), #3 - Delimiter (I)  
+;* Modified 	:  ¥ Σ @
+;*****************************************************************************************
+insert_table_row #1 #2 '' #3
+
+</scriptText>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2012-06-28 13:12:05.0 CEST</created>
+    <lastSaved>2012-06-28 13:51:04.982 CEST</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

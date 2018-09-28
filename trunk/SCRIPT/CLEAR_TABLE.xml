@@ -1,0 +1,28 @@
+<LocalDescRef version="1.1">
+  <name>CLEAR_TABLE</name>
+  <type>6</type>
+  <appObjectDesc class="SCRIPT">
+    <type>0</type>
+    <scriptText>;*****************************************************************************************
+;* Script		: CLEAR_TABLE
+;* 
+;* Function		: Will clear a Qik table
+;*
+;* Parameters   : #1 - Table name to clear
+;*
+;* Created by	: MO/13Oct10
+;*
+;* Modified 	:  ¥ Σ @
+;* call 'quad_chk_send' #1='a' #2='*a' #3='' #4='' #5='norm'
+;*****************************************************************************************
+
+;* INITIALISE
+name_arguments #1 'lcl_table_name'
+
+;* CLEAR THE QIK TABLE
+clear_table lcl_table_name
+</scriptText>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2013-06-12 11:32:01.0 BST</created>
+    <lastSaved>2013-12-18 12:09:38.519 GMT</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>

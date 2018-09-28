@@ -1,0 +1,64 @@
+<LocalDescRef version="1.1">
+  <name>DISCONNECT</name>
+  <type>6</type>
+  <appObjectDesc class="SCRIPT">
+    <type>1</type>
+    <scriptText>//*****************************************************************************************
+//* Script		: DISCONNECT
+//* 
+//* Function	: Will disconnect from a database
+//*
+//* Parameters  : #1 - Database name
+//*
+//* Created by	: MO/13Oct10
+//*
+//* Modified 	: gregk 17oct13 ¥ Σ @
+//*****************************************************************************************
+// IMPORT RELEVANT JAVA CLASSES
+importPackage(java.sql);
+
+// GET THE RELEVANT DATABASE CONNECTION OBJECT
+var databaseInstance = databaseProperties.getProperty("opus.database." + args[0] + ".qikInstance");
+if (databaseInstance == null){
+   databaseStatus.value = "1";
+}
+else{
+   databaseStatus.value = "0";
+   var databaseConnection = databaseConnections[databaseInstance];
+	
+   // START PERFORMANCE
+   if (ExeptionLogEnabled == "Yes"){
+		var startTime  = startPerformance();
+   }	
+   // TRY TO CLOSE THE DATABASE CONNECTION
+   try{
+      databaseConnection.close();
+   }
+   catch (exception){
+      //debug("Error disconnecting from database : " + args[0] + " : " + exception); // gregk 09aug13
+      databaseStatus.value = "1";
+      // LOGGER
+      if (ExeptionLogEnabled == "Yes"){
+   		// STOP PERFORMANCE
+   		var elapsedTime = stopPerformance();
+		// GET EXCEPTION HEADER
+		var dbExceptionLogEntry = getLogEntry("opus.Logger.ExceptionLog.header");
+		// GET PARAMETER 
+		var dbLogParameter = "\t" +  getLogProperty("opus.Logger.ExceptionLog.body", "Yes");
+		// REPLACE ALL PLACE HOLDERS
+		dbLogParameter = dbLogParameter.replace("[ParameterValue]", args[0]);
+		dbExceptionLogEntry = dbExceptionLogEntry.replace("[Source]", "Database instance : " + databaseInstance);
+		dbExceptionLogEntry = dbExceptionLogEntry.replace("[Description]", "Error disconnecting from database : " + args[0] + " : " + exception);
+		dbExceptionLogEntry = dbExceptionLogEntry.replace("[ElapsedTime]", elapsedTime);
+		dbExceptionLogEntry += dbLogParameter;
+		dbExceptionLogEntry += getLogProperty("opus.Logger.ExceptionLog.footer", "Yes");
+		// ADD TO EXCEPTION LOG
+		var success = writeToFile(ExceptionLogFile, dbExceptionLogEntry);
+	  }
+   }
+}
+</scriptText>
+    <created class="com.poet.rt.db.tracked.TrackedDate">2012-09-06 16:51:00.0 CEST</created>
+    <lastSaved>2013-10-17 11:45:08.959 CEST</lastSaved>
+  </appObjectDesc>
+</LocalDescRef>
